@@ -1,5 +1,9 @@
 # FintechPro Landing Page
 
+<p align="center">
+  <img src="Logo.png">
+</p>
+
 Modern, high-performance landing page for a financial trading platform built with **Astro 5** and **Tailwind CSS v4**.
 
 ## 🚀 Key Features
