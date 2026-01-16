@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-25..0&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #2b6cee;
+    --color-primary-hover: #1a5ac6;
+    --color-background-light: #f6f6f8;
+    --color-background-dark: #0f1115;
+    --color-surface-dark: #181b21;
+    --color-border-dark: #2a2f3a;
+    --color-accent-green: #10B981;
+    --color-accent-red: #EF4444;
+
+    --font-display: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-body: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga';
+}
+
+.notranslate {
+    unicode-bidi: isolate;
+}
+
+/* Hard prevent translation for anything with material-symbols-outlined class */
+.material-symbols-outlined {
+    -webkit-font-feature-settings: 'liga';
+    -moz-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Fix for overlapping text in ticker */
+.ticker-item {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* UI Utilities */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.pro-highlight {
+    border-color: rgba(43, 108, 238, 0.5);
+    box-shadow: 0 0 20px rgba(43, 108, 238, 0.3);
+}
+
+.form-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 2px rgba(43, 108, 238, 0.2);
+}
+
+.form-input::placeholder {
+    color: #6b7280;
+}

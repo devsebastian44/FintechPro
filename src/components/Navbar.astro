@@ -1,0 +1,146 @@
+---
+
+---
+
+<header
+    class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-border-dark bg-white/80 dark:bg-background-dark/80 backdrop-blur-md"
+>
+    <div
+        class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+    >
+        <a
+            href="/"
+            class="flex items-center gap-2 hover:opacity-90 transition-opacity"
+        >
+            <div
+                class="flex h-8 w-8 items-center justify-center rounded bg-primary text-white flex-shrink-0 notranslate"
+                translate="no"
+            >
+                <span class="material-symbols-outlined text-xl"
+                    >candlestick_chart</span
+                >
+            </div>
+            <span
+                class="text-lg font-bold tracking-tight text-slate-900 dark:text-white"
+                >FintechPro</span
+            >
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-8">
+            <a
+                class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+                href="/pricing">Pricing</a
+            >
+        </nav>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+            <button
+                class="hidden sm:flex text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+            >
+                Login
+            </button>
+            <button
+                class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-3 sm:px-4 text-xs sm:text-sm font-bold text-white shadow transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+                Start Trading
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button
+                id="mobile-menu-toggle"
+                class="md:hidden flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 dark:border-border-dark text-slate-600 dark:text-gray-300 notranslate"
+                translate="no"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+            >
+                <span
+                    class="material-symbols-outlined text-[24px]"
+                    id="menu-toggle-icon">menu</span
+                >
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu Dropdown -->
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute top-16 left-0 w-full border-b border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark px-4 py-6 space-y-4 shadow-2xl z-50"
+    >
+        <nav class="flex flex-col gap-4">
+            <a
+                class="text-base font-semibold text-slate-900 dark:text-white hover:text-primary transition-colors"
+                href="/pricing">Pricing</a
+            >
+        </nav>
+        <div
+            class="pt-4 border-t border-gray-100 dark:border-border-dark flex flex-col gap-3"
+        >
+            <button
+                class="w-full h-11 flex items-center justify-center rounded-lg border border-gray-200 dark:border-border-dark text-base font-bold text-slate-900 dark:text-white"
+            >
+                Login
+            </button>
+            <button
+                class="w-full h-11 flex items-center justify-center rounded-lg bg-primary text-base font-bold text-white shadow-lg shadow-primary/25"
+            >
+                Start Trading
+            </button>
+        </div>
+    </div>
+</header>
+
+<script>
+    const toggleBtn = document.getElementById("mobile-menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const toggleIcon = document.getElementById("menu-toggle-icon");
+
+    toggleBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+
+        // Toggle attribute
+        toggleBtn.setAttribute("aria-expanded", (!isExpanded).toString());
+
+        // Toggle menu visibility
+        mobileMenu?.classList.toggle("hidden");
+
+        // Change icon text
+        if (toggleIcon) {
+            toggleIcon.textContent = isExpanded ? "menu" : "close";
+        }
+
+        if (!isExpanded) {
+            toggleBtn.classList.add("bg-gray-100", "dark:bg-border-dark");
+        } else {
+            toggleBtn.classList.remove("bg-gray-100", "dark:bg-border-dark");
+        }
+    });
+
+    // Close menu when clicking on a link
+    const mobileLinks = mobileMenu?.querySelectorAll("a");
+    mobileLinks?.forEach((link) => {
+        link.addEventListener("click", () => {
+            mobileMenu?.classList.add("hidden");
+            if (toggleIcon) toggleIcon.textContent = "menu";
+            toggleBtn?.setAttribute("aria-expanded", "false");
+            toggleBtn?.classList.remove("bg-gray-100", "dark:bg-border-dark");
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+        if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+            const target = e.target as HTMLElement;
+            if (!mobileMenu.contains(target) && !toggleBtn?.contains(target)) {
+                mobileMenu.classList.add("hidden");
+                if (toggleIcon) toggleIcon.textContent = "menu";
+                toggleBtn?.setAttribute("aria-expanded", "false");
+                toggleBtn?.classList.remove(
+                    "bg-gray-100",
+                    "dark:bg-border-dark",
+                );
+            }
+        }
+    });
+</script>
