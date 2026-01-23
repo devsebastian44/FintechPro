@@ -2,10 +2,10 @@
 
 ---
 
-<section class="py-16 lg:py-24 relative">
+<section class="py-16 lg:py-24 relative overflow-hidden">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
-            class="relative rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-surface-dark shadow-2xl overflow-hidden ring-1 ring-slate-900/10"
+            class="relative rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#0B0E14] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] overflow-hidden"
         >
             <!-- Fake Browser/App Header -->
             <div
@@ -24,41 +24,50 @@
             </div>
             <!-- Dashboard Content -->
             <div
-                class="grid grid-cols-12 h-[500px] lg:h-[600px] divide-x divide-gray-100 dark:divide-border-dark bg-white dark:bg-surface-dark"
+                class="grid grid-cols-12 h-[550px] lg:h-[650px] divide-x divide-gray-100 dark:divide-border-dark bg-white dark:bg-surface-dark"
             >
                 <!-- Left Sidebar (Assets) -->
                 <div
-                    class="hidden md:block col-span-2 lg:col-span-2 p-4 space-y-4"
+                    class="hidden md:block col-span-2 lg:col-span-2 p-4 space-y-4 overflow-y-auto"
                 >
                     <div
                         class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2"
                     >
                         Watchlist
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-2" id="watchlist">
                         <div
-                            class="flex justify-between items-center p-2 bg-gray-50 dark:bg-border-dark/50 rounded cursor-pointer border border-transparent dark:border-primary/20"
+                            class="flex justify-between items-center p-2 bg-gray-50 dark:bg-border-dark/50 rounded cursor-pointer border border-transparent dark:border-primary/20 watchlist-item active"
+                            data-pair="BTCUSDT"
+                            data-label="BTC/USD"
                         >
                             <span class="font-medium text-sm">BTC</span>
-                            <span class="text-sm text-accent-green">+2.4%</span>
+                            <span
+                                class="text-xs font-mono text-emerald-400"
+                                id="price-BTC">--.--</span
+                            >
                         </div>
                         <div
-                            class="flex justify-between items-center p-2 hover:bg-gray-50 dark:hover:bg-border-dark/30 rounded cursor-pointer"
+                            class="flex justify-between items-center p-2 hover:bg-gray-50 dark:hover:bg-border-dark/30 rounded cursor-pointer watchlist-item transition-colors"
+                            data-pair="ETHUSDT"
+                            data-label="ETH/USD"
                         >
                             <span class="font-medium text-sm">ETH</span>
-                            <span class="text-sm text-accent-red">-1.2%</span>
+                            <span
+                                class="text-xs font-mono text-red-400"
+                                id="price-ETH">--.--</span
+                            >
                         </div>
                         <div
-                            class="flex justify-between items-center p-2 hover:bg-gray-50 dark:hover:bg-border-dark/30 rounded cursor-pointer"
+                            class="flex justify-between items-center p-2 hover:bg-gray-50 dark:hover:bg-border-dark/30 rounded cursor-pointer watchlist-item transition-colors"
+                            data-pair="SOLUSDT"
+                            data-label="SOL/USD"
                         >
                             <span class="font-medium text-sm">SOL</span>
-                            <span class="text-sm text-accent-green">+5.8%</span>
-                        </div>
-                        <div
-                            class="flex justify-between items-center p-2 hover:bg-gray-50 dark:hover:bg-border-dark/30 rounded cursor-pointer"
-                        >
-                            <span class="font-medium text-sm">AAPL</span>
-                            <span class="text-sm text-gray-400">0.0%</span>
+                            <span
+                                class="text-xs font-mono text-emerald-400"
+                                id="price-SOL">--.--</span
+                            >
                         </div>
                     </div>
                 </div>
@@ -72,160 +81,490 @@
                         class="flex items-center justify-between border-b border-gray-100 dark:border-border-dark p-3 bg-white/5 dark:bg-surface-dark/90 backdrop-blur-sm z-10"
                     >
                         <div class="flex items-center gap-3">
-                            <h3 class="font-bold text-lg text-white">
+                            <h3
+                                class="font-bold text-lg text-white"
+                                id="current-symbol-label"
+                            >
                                 BTC/USD
                             </h3>
-                            <span
-                                class="px-2 py-0.5 rounded text-xs bg-accent-green/20 text-accent-green font-medium"
-                                >+2.45%</span
+                            <div
+                                id="btc-header-price"
+                                class="flex items-center gap-2"
                             >
+                                <span
+                                    class="bg-emerald-500/20 text-emerald-400 text-[14px] font-mono font-bold px-2 py-0.5 rounded"
+                                    id="live-price"
+                                >
+                                    --.--
+                                </span>
+                                <span
+                                    class="text-xs text-emerald-400 font-medium font-mono"
+                                    id="live-change"
+                                >
+                                    +0.00%
+                                </span>
+                            </div>
                         </div>
-                        <div class="flex gap-2">
+                        <div class="flex gap-2" id="timeframe-buttons">
                             <span
-                                class="text-xs text-gray-400 px-2 py-1 hover:bg-white/10 rounded cursor-pointer"
-                                >1H</span
+                                class="text-[10px] uppercase font-bold text-gray-400 px-2 py-1 hover:bg-white/10 rounded cursor-pointer tf-btn"
+                                data-interval="1h">1H</span
                             >
                             <span
-                                class="text-xs text-white bg-primary px-2 py-1 rounded cursor-pointer"
-                                >4H</span
+                                class="text-[10px] uppercase font-bold text-white bg-primary px-2 py-1 rounded cursor-pointer shadow-lg shadow-primary/20 tf-btn active"
+                                data-interval="4h">4H</span
                             >
                             <span
-                                class="text-xs text-gray-400 px-2 py-1 hover:bg-white/10 rounded cursor-pointer"
-                                >1D</span
+                                class="text-[10px] uppercase font-bold text-gray-400 px-2 py-1 hover:bg-white/10 rounded cursor-pointer tf-btn"
+                                data-interval="1d">1D</span
                             >
                             <span
                                 class="flex items-center justify-center ml-2 notranslate"
                                 translate="no"
                             >
                                 <span
-                                    class="material-symbols-outlined text-gray-400 text-sm cursor-pointer"
+                                    class="material-symbols-outlined text-gray-400 text-sm cursor-pointer rotate-0 hover:rotate-90 transition-transform"
                                     >settings</span
                                 >
                             </span>
                         </div>
                     </div>
-                    <!-- SVG Chart Mockup -->
-                    <div class="flex-1 w-full h-full relative p-6">
-                        <svg
-                            class="w-full h-full"
-                            preserveAspectRatio="none"
-                            viewBox="0 0 800 400"
-                        >
-                            <!-- Grid lines -->
-                            <line
-                                x1="0"
-                                y1="100"
-                                x2="800"
-                                y2="100"
-                                stroke="#2a2f3a"
-                                stroke-width="1"
-                                stroke-dasharray="4"></line>
-                            <line
-                                x1="0"
-                                y1="200"
-                                x2="800"
-                                y2="200"
-                                stroke="#2a2f3a"
-                                stroke-width="1"
-                                stroke-dasharray="4"></line>
-                            <line
-                                x1="0"
-                                y1="300"
-                                x2="800"
-                                y2="300"
-                                stroke="#2a2f3a"
-                                stroke-width="1"
-                                stroke-dasharray="4"></line>
-                            <!-- Chart Line -->
-                            <path
-                                d="M0,320 L50,310 L100,340 L150,280 L200,290 L250,250 L300,270 L350,220 L400,240 L450,180 L500,190 L550,150 L600,160 L650,120 L700,130 L750,90 L800,80"
-                                fill="none"
-                                stroke="#2b6cee"
-                                stroke-width="2"
-                                class="drop-shadow-[0_0_10px_rgba(43,108,238,0.5)]"
-                            ></path>
-                            <path
-                                d="M0,320 L50,310 L100,340 L150,280 L200,290 L250,250 L300,270 L350,220 L400,240 L450,180 L500,190 L550,150 L600,160 L650,120 L700,130 L750,90 L800,80 V 400 H 0 Z"
-                                fill="url(#gradient)"
-                                opacity="0.2"></path>
-                            <!-- Candlesticks (Mock) -->
-                            <rect
-                                x="680"
-                                y="110"
-                                width="8"
-                                height="40"
-                                fill="#10B981"
-                                rx="1"></rect>
-                            <line
-                                x1="684"
-                                y1="100"
-                                x2="684"
-                                y2="160"
-                                stroke="#10B981"
-                                stroke-width="1"></line>
-                            <rect
-                                x="710"
-                                y="120"
-                                width="8"
-                                height="20"
-                                fill="#EF4444"
-                                rx="1"></rect>
-                            <line
-                                x1="714"
-                                y1="115"
-                                x2="714"
-                                y2="150"
-                                stroke="#EF4444"
-                                stroke-width="1"></line>
-                            <rect
-                                x="740"
-                                y="90"
-                                width="8"
-                                height="50"
-                                fill="#10B981"
-                                rx="1"></rect>
-                            <line
-                                x1="744"
-                                y1="80"
-                                x2="744"
-                                y2="150"
-                                stroke="#10B981"
-                                stroke-width="1"></line>
-                            <defs>
-                                <linearGradient
-                                    id="gradient"
-                                    x1="0%"
-                                    y1="0%"
-                                    x2="0%"
-                                    y2="100%"
-                                >
-                                    <stop
-                                        offset="0%"
-                                        style="stop-color:#2b6cee;stop-opacity:1"
-                                    ></stop>
-                                    <stop
-                                        offset="100%"
-                                        style="stop-color:#2b6cee;stop-opacity:0"
-                                    ></stop>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        <!-- Floating Indicators -->
+                    <!-- Lightweight Chart Container -->
+                    <div class="flex-1 w-full h-full relative" id="tv-chart">
                         <div
-                            class="absolute top-20 left-10 bg-surface-dark/80 backdrop-blur border border-border-dark p-2 rounded shadow-lg"
+                            id="chart-loading"
+                            class="absolute inset-0 flex items-center justify-center bg-surface-dark/95 z-20 transition-opacity duration-500"
                         >
-                            <div class="text-[10px] text-gray-400 mb-1">
-                                MA (50)
-                            </div>
-                            <div class="text-sm font-mono text-primary">
-                                42,850.2
+                            <div
+                                class="flex flex-col items-center gap-3 text-center"
+                            >
+                                <div
+                                    id="spinner"
+                                    class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"
+                                >
+                                </div>
+                                <div class="space-y-1">
+                                    <span
+                                        id="loading-text"
+                                        class="block text-sm text-white font-medium"
+                                        >Sincronizando mercado...</span
+                                    >
+                                    <span
+                                        class="block text-[10px] text-gray-500 uppercase tracking-widest font-bold"
+                                        >Binance Live Data Hub</span
+                                    >
+                                </div>
+                                <button
+                                    id="retry-btn"
+                                    class="hidden mt-4 px-6 py-2 bg-primary hover:bg-primary-dark text-white text-xs font-bold rounded-full transition-all shadow-lg"
+                                    >Reiniciar Conexión</button
+                                >
                             </div>
                         </div>
                     </div>
+
+                    <!-- Use specific version for stability -->
+                    <script
+                        is:inline
+                        src="https://unpkg.com/lightweight-charts@4.1.1/dist/lightweight-charts.standalone.production.js"
+                    ></script>
+
+                    <script is:inline>
+                        /**
+                         * MARKET DATA SERVICE
+                         */
+                        const MarketDataService = {
+                            baseUrl: "https://api.binance.com/api/v3",
+                            async fetchKlines(
+                                symbol,
+                                interval = "4h",
+                                limit = 100,
+                            ) {
+                                try {
+                                    const response = await fetch(
+                                        `${this.baseUrl}/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`,
+                                    );
+                                    if (!response.ok)
+                                        throw new Error(
+                                            `HTTP ${response.status}`,
+                                        );
+                                    const data = await response.json();
+                                    return data.map((d) => ({
+                                        time: d[0] / 1000,
+                                        open: parseFloat(d[1]),
+                                        high: parseFloat(d[2]),
+                                        low: parseFloat(d[3]),
+                                        close: parseFloat(d[4]),
+                                    }));
+                                } catch (error) {
+                                    console.error("Klines fetch error:", error);
+                                    throw error;
+                                }
+                            },
+                            async fetchTickers(symbols) {
+                                try {
+                                    const results = await Promise.all(
+                                        symbols.map((s) =>
+                                            fetch(
+                                                `${this.baseUrl}/ticker/24hr?symbol=${s}`,
+                                            ).then((r) => r.json()),
+                                        ),
+                                    );
+                                    return results;
+                                } catch (error) {
+                                    console.error(
+                                        "Tickers fetch error:",
+                                        error,
+                                    );
+                                    throw error;
+                                }
+                            },
+                        };
+
+                        /**
+                         * FINANCIAL CHART MODULE
+                         */
+                        class FinancialChartModule {
+                            constructor(containerId) {
+                                this.container =
+                                    document.getElementById(containerId);
+                                this.chart = null;
+                                this.series = null;
+                            }
+                            init() {
+                                if (
+                                    !this.container ||
+                                    !window.LightweightCharts
+                                )
+                                    return false;
+                                try {
+                                    if (this.chart) {
+                                        this.chart.remove();
+                                        this.chart = null;
+                                    }
+
+                                    this.chart =
+                                        window.LightweightCharts.createChart(
+                                            this.container,
+                                            {
+                                                layout: {
+                                                    background: {
+                                                        color: "transparent",
+                                                    },
+                                                    textColor: "#9ca3af",
+                                                    fontSize: 11,
+                                                },
+                                                grid: {
+                                                    vertLines: {
+                                                        color: "rgba(31, 41, 55, 0.1)",
+                                                    },
+                                                    horzLines: {
+                                                        color: "rgba(31, 41, 55, 0.1)",
+                                                    },
+                                                },
+                                                rightPriceScale: {
+                                                    borderColor:
+                                                        "rgba(31, 41, 55, 0.5)",
+                                                    autoScale: true,
+                                                },
+                                                timeScale: {
+                                                    borderColor:
+                                                        "rgba(31, 41, 55, 0.5)",
+                                                    timeVisible: true,
+                                                    secondsVisible: false,
+                                                },
+                                            },
+                                        );
+
+                                    this.series =
+                                        this.chart.addCandlestickSeries({
+                                            upColor: "#10b981",
+                                            downColor: "#ef4444",
+                                            borderVisible: false,
+                                            wickUpColor: "#10b981",
+                                            wickDownColor: "#ef4444",
+                                        });
+
+                                    const resize = () => {
+                                        if (this.chart && this.container) {
+                                            this.chart.applyOptions({
+                                                width: this.container
+                                                    .clientWidth,
+                                                height: this.container
+                                                    .clientHeight,
+                                            });
+                                        }
+                                    };
+
+                                    new ResizeObserver(resize).observe(
+                                        this.container,
+                                    );
+                                    window.addEventListener("resize", resize);
+                                    setTimeout(resize, 100);
+
+                                    return true;
+                                } catch (e) {
+                                    console.error("Chart init error:", e);
+                                    return false;
+                                }
+                            }
+                            setData(data) {
+                                if (this.series) this.series.setData(data);
+                            }
+                            update(data) {
+                                if (this.series) this.series.update(data);
+                            }
+                        }
+
+                        /**
+                         * APP CONTROLLER
+                         */
+                        (function () {
+                            const chartModule = new FinancialChartModule(
+                                "tv-chart",
+                            );
+                            let currentPair = "BTCUSDT";
+                            let currentLabel = "BTC/USD";
+                            let currentInterval = "4h";
+                            const watchlistPairs = [
+                                "BTCUSDT",
+                                "ETHUSDT",
+                                "SOLUSDT",
+                            ];
+                            let pollingInterval = null;
+
+                            const UI = {
+                                loading:
+                                    document.getElementById("chart-loading"),
+                                errorText:
+                                    document.getElementById("loading-text"),
+                                retryBtn: document.getElementById("retry-btn"),
+                                livePrice:
+                                    document.getElementById("live-price"),
+                                liveChange:
+                                    document.getElementById("live-change"),
+                                currentLabel: document.getElementById(
+                                    "current-symbol-label",
+                                ),
+                                watchlistItems:
+                                    document.querySelectorAll(
+                                        ".watchlist-item",
+                                    ),
+                                timeframeBtns:
+                                    document.querySelectorAll(".tf-btn"),
+                                setStatus(type, message = "") {
+                                    if (type === "loading") {
+                                        this.loading.style.display = "flex";
+                                        this.loading.style.opacity = "1";
+                                        if (message)
+                                            this.errorText.innerText = message;
+                                    } else if (type === "success") {
+                                        this.loading.style.opacity = "0";
+                                        setTimeout(
+                                            () =>
+                                                (this.loading.style.display =
+                                                    "none"),
+                                            500,
+                                        );
+                                    } else if (type === "error") {
+                                        this.errorText.innerText = `Error: ${message}`;
+                                        this.retryBtn.classList.remove(
+                                            "hidden",
+                                        );
+                                        this.retryBtn.onclick = () =>
+                                            window.location.reload();
+                                    }
+                                },
+                            };
+
+                            async function loadSymbol(
+                                pair,
+                                label,
+                                interval = currentInterval,
+                            ) {
+                                currentPair = pair;
+                                currentInterval = interval;
+                                if (UI.currentLabel)
+                                    UI.currentLabel.innerText = label;
+                                UI.setStatus(
+                                    "loading",
+                                    "Cargando market data...",
+                                );
+                                try {
+                                    const historicalData =
+                                        await MarketDataService.fetchKlines(
+                                            pair,
+                                            interval,
+                                        );
+                                    chartModule.setData(historicalData);
+                                    UI.setStatus("success");
+                                    startPolling();
+                                } catch (err) {
+                                    UI.setStatus("error", "Fallo de conexión");
+                                }
+                            }
+
+                            function startPolling() {
+                                if (pollingInterval)
+                                    clearInterval(pollingInterval);
+                                pollingInterval = setInterval(async () => {
+                                    try {
+                                        // Fetch latest candle for current interval
+                                        const latest =
+                                            await MarketDataService.fetchKlines(
+                                                currentPair,
+                                                currentInterval,
+                                                1,
+                                            );
+                                        if (latest && latest[0])
+                                            chartModule.update(latest[0]);
+
+                                        // Update header
+                                        const ticker =
+                                            await MarketDataService.fetchTickers(
+                                                [currentPair],
+                                            );
+                                        if (ticker && ticker[0]) {
+                                            const t = ticker[0];
+                                            const p = parseFloat(
+                                                t.lastPrice || t.c || 0,
+                                            );
+                                            const c = parseFloat(
+                                                t.priceChangePercent ||
+                                                    t.P ||
+                                                    0,
+                                            );
+
+                                            if (p > 0) {
+                                                const decimals =
+                                                    currentPair === "SOLUSDT"
+                                                        ? 2
+                                                        : 1;
+                                                UI.livePrice.innerText =
+                                                    "$" +
+                                                    p.toLocaleString(
+                                                        undefined,
+                                                        {
+                                                            minimumFractionDigits:
+                                                                decimals,
+                                                        },
+                                                    );
+                                            }
+                                            if (!isNaN(c)) {
+                                                UI.liveChange.innerText =
+                                                    (c >= 0 ? "+" : "") +
+                                                    c.toFixed(2) +
+                                                    "%";
+                                                UI.liveChange.className = `text-xs font-mono font-medium ${c >= 0 ? "text-emerald-400" : "text-red-400"}`;
+                                            }
+                                        }
+                                    } catch (err) {
+                                        console.warn("Polling error:", err);
+                                    }
+                                }, 2000);
+                            }
+
+                            async function refreshWatchlist() {
+                                try {
+                                    const tickers =
+                                        await MarketDataService.fetchTickers(
+                                            watchlistPairs,
+                                        );
+                                    tickers.forEach((t) => {
+                                        const s = (
+                                            t.symbol ||
+                                            t.s ||
+                                            ""
+                                        ).replace("USDT", "");
+                                        const el = document.getElementById(
+                                            `price-${s}`,
+                                        );
+                                        const p = parseFloat(
+                                            t.lastPrice || t.c || 0,
+                                        );
+                                        if (el && p > 0) {
+                                            el.innerText = p.toLocaleString(
+                                                undefined,
+                                                { minimumFractionDigits: 1 },
+                                            );
+                                        }
+                                    });
+                                } catch (e) {}
+                            }
+
+                            if (chartModule.init()) {
+                                loadSymbol(
+                                    currentPair,
+                                    currentLabel,
+                                    currentInterval,
+                                );
+                                refreshWatchlist();
+                                setInterval(refreshWatchlist, 10000);
+
+                                UI.watchlistItems.forEach((item) => {
+                                    item.onclick = () => {
+                                        UI.watchlistItems.forEach((i) =>
+                                            i.classList.remove(
+                                                "active",
+                                                "bg-gray-50",
+                                                "dark:bg-border-dark/50",
+                                            ),
+                                        );
+                                        item.classList.add(
+                                            "active",
+                                            "bg-gray-50",
+                                            "dark:bg-border-dark/50",
+                                        );
+                                        loadSymbol(
+                                            item.dataset.pair,
+                                            item.dataset.label,
+                                        );
+                                    };
+                                });
+
+                                UI.timeframeBtns.forEach((btn) => {
+                                    btn.onclick = () => {
+                                        const interval = btn.dataset.interval;
+                                        UI.timeframeBtns.forEach((b) => {
+                                            b.classList.remove(
+                                                "text-white",
+                                                "bg-primary",
+                                                "shadow-lg",
+                                                "shadow-primary/20",
+                                                "tf-btn-active",
+                                            );
+                                            b.classList.add(
+                                                "text-gray-400",
+                                                "hover:bg-white/10",
+                                            );
+                                            b.classList.remove("active");
+                                        });
+                                        btn.classList.add(
+                                            "text-white",
+                                            "bg-primary",
+                                            "shadow-lg",
+                                            "shadow-primary/20",
+                                            "tf-btn-active",
+                                            "active",
+                                        );
+                                        btn.classList.remove(
+                                            "text-gray-400",
+                                            "hover:bg-white/10",
+                                        );
+                                        loadSymbol(
+                                            currentPair,
+                                            currentLabel,
+                                            interval,
+                                        );
+                                    };
+                                });
+                            }
+                        })();
+                    </script>
                 </div>
-                <!-- Right Sidebar (Order Book / Buy Sell) -->
+                <!-- Right Sidebar (Order Book) -->
                 <div
-                    class="hidden md:flex col-span-3 lg:col-span-2 flex-col p-4 bg-gray-50 dark:bg-[#13161c]"
+                    class="hidden md:flex col-span-3 lg:col-span-2 flex-col p-4 bg-gray-50 dark:bg-[#13161c] overflow-y-auto"
                 >
                     <div class="flex-1">
                         <div
@@ -234,41 +573,41 @@
                             Order Book
                         </div>
                         <div class="space-y-1 mb-6">
-                            <div class="flex justify-between text-xs">
+                            <div
+                                class="flex justify-between text-[10px] font-mono"
+                            >
                                 <span class="text-accent-red">43,215.5</span>
                                 <span class="text-gray-500">0.45</span>
                             </div>
-                            <div class="flex justify-between text-xs">
+                            <div
+                                class="flex justify-between text-[10px] font-mono"
+                            >
                                 <span class="text-accent-red">43,214.0</span>
                                 <span class="text-gray-500">1.20</span>
                             </div>
-                            <div class="flex justify-between text-xs">
+                            <div
+                                class="flex justify-between text-[10px] font-mono"
+                            >
                                 <span class="text-accent-red">43,213.5</span>
                                 <span class="text-gray-500">0.15</span>
                             </div>
                             <div
-                                class="my-2 border-t border-dashed border-gray-700"
+                                class="my-3 border-t border-dashed border-gray-200 dark:border-gray-700"
                             >
                             </div>
-                            <div class="flex justify-between text-xs">
+                            <div
+                                class="flex justify-between text-[10px] font-mono"
+                            >
                                 <span class="text-accent-green">43,210.5</span>
                                 <span class="text-gray-500">2.50</span>
                             </div>
-                            <div class="flex justify-between text-xs">
+                            <div
+                                class="flex justify-between text-[10px] font-mono"
+                            >
                                 <span class="text-accent-green">43,209.0</span>
                                 <span class="text-gray-500">0.85</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-auto space-y-3">
-                        <button
-                            class="w-full py-2 bg-accent-green hover:bg-emerald-600 text-white text-sm font-bold rounded transition-colors"
-                            >Buy BTC</button
-                        >
-                        <button
-                            class="w-full py-2 bg-accent-red hover:bg-red-600 text-white text-sm font-bold rounded transition-colors"
-                            >Sell BTC</button
-                        >
                     </div>
                 </div>
             </div>

@@ -25,17 +25,16 @@
                         >Bitcoin</span
                     >
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold dark:text-white"
-                            >$43,210.50</span
+                        <span
+                            class="text-sm font-bold dark:text-white"
+                            id="ticker-price-BTC">$--.---</span
                         >
                         <span
-                            class="text-xs font-medium text-accent-green flex items-center notranslate"
+                            class="text-xs font-medium flex items-center notranslate"
                             translate="no"
+                            id="ticker-change-BTC"
                         >
-                            <span class="material-symbols-outlined text-[14px]"
-                                >arrow_drop_up</span
-                            >
-                            2.4%
+                            --%
                         </span>
                     </div>
                 </div>
@@ -56,17 +55,16 @@
                         >Ethereum</span
                     >
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold dark:text-white"
-                            >$2,240.15</span
+                        <span
+                            class="text-sm font-bold dark:text-white"
+                            id="ticker-price-ETH">$--.---</span
                         >
                         <span
-                            class="text-xs font-medium text-accent-red flex items-center notranslate"
+                            class="text-xs font-medium flex items-center notranslate"
                             translate="no"
+                            id="ticker-change-ETH"
                         >
-                            <span class="material-symbols-outlined text-[14px]"
-                                >arrow_drop_down</span
-                            >
-                            1.2%
+                            --%
                         </span>
                     </div>
                 </div>
@@ -87,8 +85,9 @@
                         >S&P 500</span
                     >
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold dark:text-white"
-                            >$4,150.80</span
+                        <span
+                            class="text-sm font-bold dark:text-white"
+                            id="ticker-price-SPX">$5,910.80</span
                         >
                         <span
                             class="text-xs font-medium text-accent-green flex items-center notranslate"
@@ -97,7 +96,7 @@
                             <span class="material-symbols-outlined text-[14px]"
                                 >arrow_drop_up</span
                             >
-                            0.5%
+                            0.54%
                         </span>
                     </div>
                 </div>
@@ -118,8 +117,9 @@
                         >Nasdaq</span
                     >
                     <div class="flex items-center gap-2">
-                        <span class="text-sm font-bold dark:text-white"
-                            >$14,890.20</span
+                        <span
+                            class="text-sm font-bold dark:text-white"
+                            id="ticker-price-NDAQ">$21,490.20</span
                         >
                         <span
                             class="text-xs font-medium text-accent-green flex items-center notranslate"
@@ -128,7 +128,7 @@
                             <span class="material-symbols-outlined text-[14px]"
                                 >arrow_drop_up</span
                             >
-                            0.8%
+                            0.82%
                         </span>
                     </div>
                 </div>
@@ -136,3 +136,87 @@
         </div>
     </div>
 </section>
+
+<script is:inline>
+    (function () {
+        /**
+         * Real-time Crypto Data (Binance)
+         */
+        const updateCrypto = async () => {
+            try {
+                const response = await fetch(
+                    'https://api.binance.com/api/v3/ticker/24hr?symbols=["BTCUSDT","ETHUSDT"]',
+                );
+                const data = await response.json();
+
+                data.forEach((ticker) => {
+                    const symbol = ticker.symbol.replace("USDT", "");
+                    const priceEl = document.getElementById(
+                        `ticker-price-${symbol}`,
+                    );
+                    const changeEl = document.getElementById(
+                        `ticker-change-${symbol}`,
+                    );
+
+                    if (priceEl) {
+                        const price = parseFloat(ticker.lastPrice);
+                        priceEl.innerText =
+                            "$" +
+                            price.toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            });
+                    }
+
+                    if (changeEl) {
+                        const change = parseFloat(ticker.priceChangePercent);
+                        const isPositive = change >= 0;
+                        changeEl.className = `text-xs font-medium flex items-center notranslate ${isPositive ? "text-accent-green" : "text-accent-red"}`;
+                        changeEl.innerHTML = `
+                            <span class="material-symbols-outlined text-[14px]">${isPositive ? "arrow_drop_up" : "arrow_drop_down"}</span>
+                            ${Math.abs(change).toFixed(2)}%
+                        `;
+                    }
+                });
+            } catch (error) {
+                console.warn("Ticker crypto update failed:", error);
+            }
+        };
+
+        /**
+         * Live Simulation for Indices (S&P 500 / NASDAQ)
+         */
+        let spxBase = 5910.8;
+        let ndaqBase = 21490.2;
+
+        const updateIndices = () => {
+            // Micro-fluctuations
+            spxBase += (Math.random() - 0.5) * 1.5;
+            ndaqBase += (Math.random() - 0.5) * 4.2;
+
+            const spxEl = document.getElementById("ticker-price-SPX");
+            const ndaqEl = document.getElementById("ticker-price-NDAQ");
+
+            if (spxEl)
+                spxEl.innerText =
+                    "$" +
+                    spxBase.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+            if (ndaqEl)
+                ndaqEl.innerText =
+                    "$" +
+                    ndaqBase.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+        };
+
+        updateCrypto();
+        updateIndices();
+
+        setInterval(updateCrypto, 3000);
+        setInterval(updateIndices, 1500);
+    })();
+</script>
