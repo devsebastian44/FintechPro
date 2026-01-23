@@ -26,29 +26,25 @@
             >
         </a>
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-8">
-            <a
-                class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-                href="/">Home</a
-            >
-            <a
-                class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-                href="/pricing">Pricing</a
-            >
-        </nav>
+        <!-- Left blank for spacing if needed or just removed -->
 
         <div class="flex items-center gap-2 sm:gap-4">
-            <button
-                class="hidden sm:flex text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+            <a
+                href="/"
+                class="hidden md:flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
             >
-                Login
-            </button>
-            <button
-                class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-3 sm:px-4 text-xs sm:text-sm font-bold text-white shadow transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                <span class="material-symbols-outlined text-[20px]">home</span>
+                Home
+            </a>
+            <a
+                href="/pricing"
+                class="hidden md:flex h-9 items-center justify-center gap-1.5 rounded-lg bg-primary px-3 sm:px-4 text-xs sm:text-sm font-bold text-white shadow transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
             >
-                Start Trading
-            </button>
+                <span class="material-symbols-outlined text-[18px]"
+                    >payments</span
+                >
+                Pricing
+            </a>
 
             <!-- Mobile Menu Toggle -->
             <button
@@ -71,30 +67,22 @@
         id="mobile-menu"
         class="hidden md:hidden absolute top-16 left-0 w-full border-b border-gray-200 dark:border-border-dark bg-white dark:bg-background-dark px-4 py-6 space-y-4 shadow-2xl z-50"
     >
-        <nav class="flex flex-col gap-4">
+        <nav class="flex flex-col gap-3">
             <a
-                class="text-base font-semibold text-slate-900 dark:text-white hover:text-primary transition-colors"
-                href="/">Home</a
+                class="flex items-center gap-2 px-4 py-3 rounded-lg text-base font-semibold text-slate-900 dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                href="/"
             >
+                <span class="material-symbols-outlined text-primary">home</span>
+                Home
+            </a>
             <a
-                class="text-base font-semibold text-slate-900 dark:text-white hover:text-primary transition-colors"
-                href="/pricing">Pricing</a
+                class="flex items-center gap-2 px-4 py-3 rounded-lg bg-primary text-base font-bold text-white shadow-lg shadow-primary/25"
+                href="/pricing"
             >
+                <span class="material-symbols-outlined">payments</span>
+                Pricing
+            </a>
         </nav>
-        <div
-            class="pt-4 border-t border-gray-100 dark:border-border-dark flex flex-col gap-3"
-        >
-            <button
-                class="w-full h-11 flex items-center justify-center rounded-lg border border-gray-200 dark:border-border-dark text-base font-bold text-slate-900 dark:text-white"
-            >
-                Login
-            </button>
-            <button
-                class="w-full h-11 flex items-center justify-center rounded-lg bg-primary text-base font-bold text-white shadow-lg shadow-primary/25"
-            >
-                Start Trading
-            </button>
-        </div>
     </div>
 </header>
 

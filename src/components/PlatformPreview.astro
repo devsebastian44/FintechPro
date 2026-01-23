@@ -76,6 +76,38 @@
                     class="col-span-12 md:col-span-7 lg:col-span-8 flex flex-col relative bg-cover bg-center"
                     style="background-image: linear-gradient(rgba(17, 24, 39, 0.9), rgba(17, 24, 39, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnzpV18RV8DL1adxNKN2Yj-Z5K4SBVzOBhgt52Lgm4Pg7QqqpbaAzW3u02Xa-m5lxTJ-rVmwb_H4r49t9jcg53ZVtElGUaYu6JSEHBEhysQcKFid-pOxL4BKKdTOxiR-R_dxpwwuzBV5BSpVVJ7A8hwL_ItgfKKSHHc5_v6vsPIYjf9HFm4x6XXnOVeTMjx_NeYaRQn7UWuv3NABh87OCWHhz0ayQqOxn9CKX0eIZKHIOxshEwYF35KJJOpOUuYxRATlW6PEdKR8A');"
                 >
+                    <!-- Mobile Pair Selector -->
+                    <div
+                        class="md:hidden flex items-center gap-2 px-3 py-2 overflow-x-auto bg-gray-50/5 dark:bg-[#13161c] border-b border-gray-100 dark:border-border-dark no-scrollbar shrink-0"
+                    >
+                        <button
+                            class="watchlist-item active whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold border border-primary/30 transition-all flex items-center gap-2 mobile-active-state"
+                            data-pair="BTCUSDT"
+                            data-label="BTC/USD"
+                        >
+                            <span class="w-2 h-2 rounded-full bg-orange-400"
+                            ></span>
+                            BTC/USD
+                        </button>
+                        <button
+                            class="watchlist-item whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold border border-white/5 dark:border-white/10 text-gray-400 transition-all flex items-center gap-2"
+                            data-pair="ETHUSDT"
+                            data-label="ETH/USD"
+                        >
+                            <span class="w-2 h-2 rounded-full bg-blue-400"
+                            ></span>
+                            ETH/USD
+                        </button>
+                        <button
+                            class="watchlist-item whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold border border-white/5 dark:border-white/10 text-gray-400 transition-all flex items-center gap-2"
+                            data-pair="SOLUSDT"
+                            data-label="SOL/USD"
+                        >
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"
+                            ></span>
+                            SOL/USD
+                        </button>
+                    </div>
                     <!-- Chart Toolbar -->
                     <div
                         class="flex items-center justify-between border-b border-gray-100 dark:border-border-dark p-3 bg-white/5 dark:bg-surface-dark/90 backdrop-blur-sm z-10"
@@ -503,22 +535,60 @@
 
                                 UI.watchlistItems.forEach((item) => {
                                     item.onclick = () => {
-                                        UI.watchlistItems.forEach((i) =>
+                                        const pair = item.dataset.pair;
+                                        const label = item.dataset.label;
+
+                                        // Update ALL items (desktop sidebar and mobile bar)
+                                        UI.watchlistItems.forEach((i) => {
+                                            const isMatch =
+                                                i.dataset.pair === pair;
+
+                                            // Handle Desktop Styles
                                             i.classList.remove(
-                                                "active",
                                                 "bg-gray-50",
                                                 "dark:bg-border-dark/50",
-                                            ),
-                                        );
-                                        item.classList.add(
-                                            "active",
-                                            "bg-gray-50",
-                                            "dark:bg-border-dark/50",
-                                        );
-                                        loadSymbol(
-                                            item.dataset.pair,
-                                            item.dataset.label,
-                                        );
+                                                "border-primary/20",
+                                            );
+                                            if (
+                                                isMatch &&
+                                                i.tagName === "DIV"
+                                            ) {
+                                                i.classList.add(
+                                                    "bg-gray-50",
+                                                    "dark:bg-border-dark/50",
+                                                    "border-primary/20",
+                                                );
+                                            }
+
+                                            // Handle Mobile Styles (Buttons)
+                                            if (i.tagName === "BUTTON") {
+                                                i.classList.remove(
+                                                    "active",
+                                                    "border-primary/30",
+                                                    "mobile-active-state",
+                                                    "text-white",
+                                                );
+                                                i.classList.add(
+                                                    "text-gray-400",
+                                                    "border-white/10",
+                                                );
+
+                                                if (isMatch) {
+                                                    i.classList.add(
+                                                        "active",
+                                                        "border-primary/30",
+                                                        "mobile-active-state",
+                                                        "text-white",
+                                                    );
+                                                    i.classList.remove(
+                                                        "text-gray-400",
+                                                        "border-white/10",
+                                                    );
+                                                }
+                                            }
+                                        });
+
+                                        loadSymbol(pair, label);
                                     };
                                 });
 
@@ -614,3 +684,20 @@
         </div>
     </div>
 </section>
+
+<style>
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .mobile-active-state {
+        background-color: rgba(59, 130, 246, 0.15) !important;
+        border-color: #3b82f6 !important;
+    }
+    .dark .mobile-active-state {
+        background-color: rgba(59, 130, 246, 0.25) !important;
+    }
+</style>
