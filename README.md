@@ -56,3 +56,19 @@ The platform now features a fully functional, real-time trading dashboard mockup
 | `npm run dev` | Starts local dev server at `localhost:4321` |
 | `npm run build` | Builds the production site to `./dist/` |
 | `npm run preview` | Previews the production build locally |
+
+## 🛡️ DevSecOps Architecture
+
+This repository adopts a professional DevSecOps pipeline with explicit separation of environments:
+
+1. **GitLab (Private Laboratory Workspace)**
+   The core development environment (Source of Truth) orchestrates comprehensive CI/CD tests via `.gitlab-ci.yml`. This includes:
+   - Security setups and Mock configs (`configs/`)
+   - Extensive End-to-End Test suites (`tests/e2e/`)
+   - Pre-commit Linting and Security Audits (Npm Audit)
+
+2. **GitHub (Sanitized Public Portfolio)**
+   The repository you are viewing is a **Sanitized Production State**. To maintain project security constraints, internal tests, configuration data, CI definitions, and raw operational scripts have been filtered out.
+
+### Sincronización Segura
+The automated synchronization is managed by `scripts/publish_public.ps1`. This script ensures that any push from the private GitLab repository to the public GitHub repository is structurally sound and strictly scrubs sensitive intellectual property, test engines, and API configurations out of the Git history prior to publishing.

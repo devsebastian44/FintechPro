@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Testing and DevOps
+coverage/
+playwright-report/
+test-results/
+*.bak
+*.tmp
