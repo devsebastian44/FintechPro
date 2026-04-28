@@ -375,7 +375,7 @@
                                 "tv-chart",
                             );
                             let currentPair = "BTCUSDT";
-                            let currentLabel = "BTC/USD";
+                            const currentLabel = "BTC/USD";
                             let currentInterval = "4h";
                             const watchlistPairs = [
                                 "BTCUSDT",
@@ -450,7 +450,7 @@
                                     chartModule.setData(historicalData);
                                     UI.setStatus("success");
                                     startPolling();
-                                } catch (err) {
+                                } catch (_err) {
                                     UI.setStatus("error", "Fallo de conexión");
                                 }
                             }
@@ -509,8 +509,8 @@
                                                 UI.liveChange.className = `text-xs font-mono font-medium ${c >= 0 ? "text-emerald-400" : "text-red-400"}`;
                                             }
                                         }
-                                    } catch (err) {
-                                        console.warn("Polling error:", err);
+                                    } catch (_err) {
+                                        console.warn("Polling error");
                                     }
                                 }, 2000);
                             }
@@ -540,7 +540,9 @@
                                             );
                                         }
                                     });
-                                } catch (e) {}
+                                } catch (_e) {
+                                    console.warn("Watchlist refresh failed");
+                                }
                             }
 
                             if (chartModule.init()) {
