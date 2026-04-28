@@ -178,6 +178,19 @@ npx prettier --write .
 
 # Verificar formato sin modificar
 npx prettier --check .
+
+### Ejecutar tests (Playwright)
+
+```bash
+# Instalar navegadores de Playwright (solo la primera vez)
+npx playwright install
+
+# Ejecutar todos los tests
+npm test
+
+# Ejecutar tests con interfaz visual
+npx playwright test --ui
+```
 ```
 
 ---

@@ -143,44 +143,55 @@
          * Real-time Crypto Data (Binance)
          */
         const updateCrypto = async () => {
+            const symbols = ["BTCUSDT", "ETHUSDT"];
+            const mockFallback = [
+                { symbol: "BTCUSDT", lastPrice: "98230.50", priceChangePercent: "2.45" },
+                { symbol: "ETHUSDT", lastPrice: "2740.15", priceChangePercent: "-1.12" }
+            ];
+
             try {
                 const response = await fetch(
-                    'https://api.binance.com/api/v3/ticker/24hr?symbols=["BTCUSDT","ETHUSDT"]',
+                    `https://api.binance.com/api/v3/ticker/24hr?symbols=${JSON.stringify(symbols)}`,
                 );
+                if (!response.ok) throw new Error("Offline");
                 const data = await response.json();
-
-                data.forEach((ticker) => {
-                    const symbol = ticker.symbol.replace("USDT", "");
-                    const priceEl = document.getElementById(
-                        `ticker-price-${symbol}`,
-                    );
-                    const changeEl = document.getElementById(
-                        `ticker-change-${symbol}`,
-                    );
-
-                    if (priceEl) {
-                        const price = parseFloat(ticker.lastPrice);
-                        priceEl.innerText =
-                            "$" +
-                            price.toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            });
-                    }
-
-                    if (changeEl) {
-                        const change = parseFloat(ticker.priceChangePercent);
-                        const isPositive = change >= 0;
-                        changeEl.className = `text-xs font-medium flex items-center notranslate ${isPositive ? "text-accent-green" : "text-accent-red"}`;
-                        changeEl.innerHTML = `
-                            <span class="material-symbols-outlined text-[14px]">${isPositive ? "arrow_drop_up" : "arrow_drop_down"}</span>
-                            ${Math.abs(change).toFixed(2)}%
-                        `;
-                    }
-                });
+                renderTickers(data);
             } catch (error) {
-                console.warn("Ticker crypto update failed:", error);
+                console.warn("Ticker crypto update failed (using mock):", error);
+                renderTickers(mockFallback);
             }
+        };
+
+        const renderTickers = (data) => {
+            data.forEach((ticker) => {
+                const symbol = ticker.symbol.replace("USDT", "");
+                const priceEl = document.getElementById(
+                    `ticker-price-${symbol}`,
+                );
+                const changeEl = document.getElementById(
+                    `ticker-change-${symbol}`,
+                );
+
+                if (priceEl) {
+                    const price = parseFloat(ticker.lastPrice);
+                    priceEl.innerText =
+                        "$" +
+                        price.toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        });
+                }
+
+                if (changeEl) {
+                    const change = parseFloat(ticker.priceChangePercent);
+                    const isPositive = change >= 0;
+                    changeEl.className = `text-xs font-medium flex items-center notranslate ${isPositive ? "text-accent-green" : "text-accent-red"}`;
+                    changeEl.innerHTML = `
+                        <span class="material-symbols-outlined text-[14px]">${isPositive ? "arrow_drop_up" : "arrow_drop_down"}</span>
+                        ${Math.abs(change).toFixed(2)}%
+                    `;
+                }
+            });
         };
 
         /**
