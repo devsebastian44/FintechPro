@@ -11,6 +11,9 @@
 
 ---
 
+> [!IMPORTANT]
+> **Ethical Disclaimer:** This project is for educational and ethical purposes only. Trading financial assets involves significant risk. The information provided by this dashboard is mocked or for presentation purposes.
+
 ## 🧠 Overview
 
 **FintechPro** es una landing page de alto rendimiento para una plataforma de
@@ -87,7 +90,7 @@ premium acorde al estilo visual de plataformas fintech de mercado.
 | Linting          | ESLint (flat config)             | `eslint.config.js`                |
 | Formateo         | Prettier                         | `prettier.config.js`              |
 | Node versioning  | `.nvmrc`                         | Versión fijada                    |
-| Arquitectura     | DevSecOps dual-repo              | GitLab (lab) → GitHub (público)   |
+| Arquitectura     | DevSecOps Clean Repo             | GitHub (Source of Truth)          |
 
 ---
 
@@ -101,10 +104,6 @@ premium acorde al estilo visual de plataformas fintech de mercado.
 ### 1. Clonar el repositorio
 
 ```bash
-# Repositorio completo de laboratorio (fuente de verdad — GitLab)
-git clone https://gitlab.com/group-programming-lab/FintechPro.git
-
-# Portafolio público sanitizado (GitHub)
 git clone https://github.com/devsebastian44/FintechPro.git
 
 cd FintechPro
@@ -228,9 +227,9 @@ FintechPro/
 └── README.md                        # Documentación principal
 ```
 
-> **Componentes eliminados en el repo público de GitHub:**
-> `scripts/publish_public.ps1`, `tests/e2e/`, `configs/`,
-> `.gitlab-ci.yml` — presentes únicamente en el laboratorio privado de GitLab.
+> **Arquitectura del repositorio:**
+> El proyecto incluye todas las configuraciones necesarias para desarrollo,
+> incluyendo tests E2E y configuraciones de entorno.
 
 ---
 
@@ -259,10 +258,10 @@ no expone endpoints vulnerables ni bases de datos. Toda la interactividad
 del dashboard se realiza mediante llamadas directas desde el cliente a
 la API pública de Binance, sin intermediarios propios.
 
-### Linting de seguridad en GitLab CI/CD
+### Calidad de Código
 
-El pipeline privado de GitLab incluye auditoría de dependencias con
-`npm audit` y verificaciones de linting como etapas previas al merge,
+El flujo de trabajo recomendado incluye auditoría de dependencias con
+`npm audit` y verificaciones de linting antes de realizar despliegues,
 garantizando que no se introduzcan paquetes con vulnerabilidades conocidas
 ni código con errores de tipado sin detectar.
 
@@ -270,24 +269,13 @@ ni código con errores de tipado sin detectar.
 
 ## 🌐 Repository Architecture
 
-Este proyecto sigue una arquitectura distribuida de doble repositorio que
-separa el entorno de desarrollo activo del portafolio público:
+Este proyecto sigue una arquitectura de repositorio único en GitHub, donde
+se centraliza tanto el código fuente de la landing como las configuraciones
+técnicas, suites de tests y documentación.
 
-**GitHub** expone el código fuente de la landing y el dashboard de trading,
-la configuración del proyecto y la documentación técnica, orientado a
-la presentación profesional del portafolio de desarrollo frontend.
-
-**GitLab** es la fuente de verdad y laboratorio completo: contiene las
-configuraciones de entorno privadas (`configs/`), la suite de tests E2E
-completa (`tests/e2e/`), el pipeline de CI/CD con linting y auditoría
-de seguridad (`.gitlab-ci.yml`), y los scripts de automatización
-DevSecOps. El script `scripts/publish_public.ps1` orquesta la
-sanitización y publicación controlada hacia GitHub.
-
-### 🔗 Full Source Code
-
-👉 Código completo disponible en GitLab:
-[https://gitlab.com/group-programming-lab/FintechPro](https://gitlab.com/group-programming-lab/FintechPro)
+GitHub es la fuente de verdad y contiene las configuraciones de entorno,
+la suite de tests E2E completa (`tests/e2e/`) y la documentación técnica,
+orientado a mantener un flujo de trabajo profesional y transparente.
 
 ---
 
@@ -322,6 +310,20 @@ Mejoras sugeridas a partir de la arquitectura y stack detectados:
 
 ---
 
+## 🤝 Contributing
+
+¡Las contribuciones son bienvenidas! Si deseas mejorar FintechPro, sigue estos pasos:
+
+1. **Fork** el repositorio.
+2. Crea una **rama** para tu mejora (`git checkout -b feature/amazing-feature`).
+3. Haz **commit** de tus cambios siguiendo los [Conventional Commits](https://www.conventionalcommits.org/).
+4. Haz **Push** a la rama (`git push origin feature/amazing-feature`).
+5. Abre un **Pull Request** explicando tus cambios.
+
+Por favor, asegúrate de que los tests pasen y el código cumpla con el estilo del proyecto.
+
+---
+
 ## 📄 License
 
 Este repositorio no incluye un archivo de licencia explícito. Todos los
@@ -343,10 +345,6 @@ Copyright © 2025 **Sebastián Zhunaula** (devsebastian44)
       <a href="https://github.com/devsebastian44">
         <img src="https://img.shields.io/badge/GitHub-devsebastian44-black?style=flat&logo=github" />
       </a>
-      <br/>
-      <a href="https://gitlab.com/group-programming-lab">
-        <img src="https://img.shields.io/badge/GitLab-group--programming--lab-FC6D26?style=flat&logo=gitlab" />
-      </a>
     </td>
   </tr>
 </table>
@@ -355,5 +353,4 @@ Copyright © 2025 **Sebastián Zhunaula** (devsebastian44)
 > especializado, demostrando integración de Astro 5 con arquitectura de
 > islas, Tailwind CSS v4 con motor CSS-first, consumo de APIs financieras
 > en tiempo real (Binance) y visualización de datos de mercado con
-> Lightweight Charts de TradingView, todo bajo una estrategia DevSecOps
-> de doble repositorio con publicación sanitizada automatizada.
+> Lightweight Charts de TradingView.

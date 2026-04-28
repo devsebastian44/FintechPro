@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// e2e test that should only run in GitLab environments and be kept private from GitHub
+// e2e test that runs in development and CI environments.
 test('Fintech Trading Dashboard loads correctly', async ({ page }) => {
   await page.goto('/');
 
